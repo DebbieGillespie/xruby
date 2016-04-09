@@ -145,4 +145,81 @@ class ClockTest < Minitest::Test
     clock = Clock.at(0, 30) - 60
     assert_equal '23:30', clock.to_s
   end
+
+  def test_clocks_with_same_time
+    skip
+    clock1 = Clock.at(15, 37)
+    clock2 = Clock.at(15, 37)
+    assert_equal clock1, clock2
+  end
+
+  def test_clocks_a_minute_apart
+    skip
+    clock1 = Clock.at(15, 36)
+    clock2 = Clock.at(15, 37)
+    refute_equal clock1, clock2
+  end
+
+  def test_clocks_an_hour_apart
+    skip
+    clock1 = Clock.at(14, 37)
+    clock2 = Clock.at(15, 37)
+    refute_equal clock1, clock2
+  end
+
+  def test_clocks_with_hour_overflow
+    skip
+    clock1 = Clock.at(10, 37)
+    clock2 = Clock.at(10, 37) + days(1) + hours(1)
+    refute_equal clock1, clock2
+  end
+
+  def test_clocks_with_hour_overflow_by_several_days
+    skip
+    clock1 = Clock.at(3, 11)
+    clock2 = Clock.at(0, 11) + hours(99)
+    assert_equal clock1, clock2
+  end
+
+  def test_clocks_with_negative_hour
+    skip
+    clock1 = Clock.at(22, 40)
+    clock2 = Clock.at(0, 40) - hours(2)
+    assert_equal clock1, clock2
+  end
+
+  def test_clocks_with_negative_hour_that_wraps
+    skip
+    clock1 = Clock.at(17, 3)
+    clock2 = Clock.at(0, 3) - hours(31)
+    assert_equal clock1, clock2
+  end
+
+  def test_clocks_with_negative_minute_that_wraps
+    skip
+    clock1 = Clock.at(4, 10)
+    clock2 = Clock.at(5, 0) - minutes(1490)
+    assert_equal clock1, clock2
+  end
+
+  def tests_clocks_with_negative_minute_that_wraps_multiple_times
+    skip
+    clock1 = Clock.at(6, 15)
+    clock2 = Clock.at(6, 0) - minutes(4305)
+    assert_equal clock1, clock2
+  end
+
+  def test_clocks_with_negative_hours_and_minutes
+    skip
+    clock1 = Clock.at(7, 32)
+    clock2 = Clock.at(0, 0) - hours(12) - minutes(268)
+    assert_equal clock1, clock2
+  end
+
+  def test_clocks_with_negative_hours_and_minutes_that_wrap
+    skip
+    clock1 = Clock.at(18, 7)
+    clock2 = Clock.at(0, 0) - hours(54) - minutes(11_513)
+    assert_equal clock1, clock2
+  end
 end
